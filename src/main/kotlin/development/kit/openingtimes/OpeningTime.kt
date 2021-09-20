@@ -5,8 +5,9 @@ import development.kit.time.DateTimeManager
 import java.time.OffsetTime
 
 open class OpeningTime(
-    private var open: OffsetTime,
-    private var close: OffsetTime
+    open var open: OffsetTime,
+    open var close: OffsetTime,
+    val id: Long
 )
 
 {

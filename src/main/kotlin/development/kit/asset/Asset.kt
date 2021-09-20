@@ -1,5 +1,6 @@
 package development.kit.asset
 
 abstract class Asset(
-    private var name: String
+    val name: String,
+    val id: Long
 )

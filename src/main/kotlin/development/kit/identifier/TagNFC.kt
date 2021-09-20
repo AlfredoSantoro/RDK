@@ -1,6 +1,6 @@
 package development.kit.identifier
 
 data class TagNFC(
-    val name: String,
-    val value: String
+    var name: String,
+    var value: String
 ): Identifier(value)

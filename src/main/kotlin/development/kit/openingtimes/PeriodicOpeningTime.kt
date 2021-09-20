@@ -5,6 +5,7 @@ import java.time.OffsetTime
 
 data class PeriodicOpeningTime(
     val dayOfWeek: DayOfWeek,
-    val openTime: OffsetTime,
-    val closeTime: OffsetTime
-): OpeningTime(openTime, closeTime)
+    override var open: OffsetTime,
+    override var close: OffsetTime,
+    val periodicOpenTimeId: Long
+): OpeningTime(open, close, periodicOpenTimeId)
