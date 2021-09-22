@@ -1,6 +1,6 @@
-package development.kit.user.type
+package development.kit.user
 
-enum class UserType
+enum class AccountType
 {
     // users registered by the system
     ADMIN,

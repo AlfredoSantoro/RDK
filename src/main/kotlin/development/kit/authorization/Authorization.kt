@@ -1,12 +1,12 @@
 package development.kit.authorization
 
-import development.kit.user.User
+import development.kit.user.Account
 import java.time.OffsetDateTime
 
 data class Authorization(
     var start: OffsetDateTime,
     var end: OffsetDateTime,
-    var user: User,
+    var account: Account,
     val id: Long
 )
 {

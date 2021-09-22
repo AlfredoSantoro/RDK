@@ -2,7 +2,7 @@ package development.kit.reservation
 
 import java.time.OffsetDateTime
 
-interface IReservation
+interface IReservationStorage
 {
     fun getUserReservationsOverlaps(start: OffsetDateTime, end: OffsetDateTime, userId: Long,
                                     excludeReservationId: Long?): List<BaseReservation>

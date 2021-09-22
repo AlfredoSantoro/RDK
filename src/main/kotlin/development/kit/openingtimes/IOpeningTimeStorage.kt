@@ -2,7 +2,7 @@ package development.kit.openingtimes
 
 import java.time.DayOfWeek
 
-interface IOpeningTime
+interface IOpeningTimeStorage
 {
     fun findByDayOfWeek(dayOfWeek: DayOfWeek): OpeningTime?
 }

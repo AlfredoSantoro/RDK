@@ -8,3 +8,6 @@ data class CheckIn(
     val time: OffsetDateTime,
     val id: Long
 )
+{
+    var isValid: Boolean = true
+}

@@ -4,7 +4,7 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 
 class OpeningTimeManager(
-    private val iOpeningTime: IOpeningTime
+    private val iOpeningTime: IOpeningTimeStorage
 )
 {
     fun reservationIsIncludedInTheOpeningTimes(reservationStart: OffsetDateTime, reservationEnd: OffsetDateTime): Boolean

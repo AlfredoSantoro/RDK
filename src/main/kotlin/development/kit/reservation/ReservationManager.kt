@@ -4,13 +4,13 @@ import development.kit.asset.Asset
 import development.kit.asset.Seat
 import development.kit.exception.IllegalReservationException
 import development.kit.time.DateTimeManager
-import development.kit.user.User
+import development.kit.user.Account
 import java.time.Duration
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
 data class ReservationManager(
-    private val iReservation: IReservation
+    private val iReservationStorage: IReservationStorage
 )
 {
     fun updateSeatReservation(reservation: SeatsReservation,
@@ -32,19 +32,19 @@ data class ReservationManager(
         return reservation
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, asset: Asset, user: User): BaseReservation
+    fun createBaseReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, end, asset, user, id)
+        return BaseReservation(start, end, asset, account, id)
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Duration, asset: Asset, user: User): BaseReservation
+    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Duration, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart), asset, user, id)
+        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart), asset, account, id)
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit, asset: Asset, user: User): BaseReservation
+    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), asset, user, id)
+        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), asset, account, id)
     }
 
     fun computeEndReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration): OffsetDateTime
@@ -67,25 +67,25 @@ data class ReservationManager(
         return endComputed
     }
 
-    fun createSeatReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, user: User): SeatsReservation
+    fun createSeatReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
     {
-        return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, user, id)
+        return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account, id)
     }
 
-    fun createSeatReservation(id: Long, name: String, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, user: User): SeatsReservation
+    fun createSeatReservation(id: Long, name: String, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
     {
-        return SeatsReservation(name, start, end, seat, user, id)
+        return SeatsReservation(name, start, end, seat, account, id)
     }
 
     fun areUserReservationsOverlaps(userId: Long, start: OffsetDateTime, end: OffsetDateTime,
                                               excludeReservationId: Long ?= null): Boolean
     {
-        return this.iReservation.getUserReservationsOverlaps(start, end, userId, excludeReservationId).isNotEmpty()
+        return this.iReservationStorage.getUserReservationsOverlaps(start, end, userId, excludeReservationId).isNotEmpty()
     }
 
     fun areAssetReservationsOverlaps(assetID: Long, start: OffsetDateTime, end: OffsetDateTime,
                                                excludeReservationId: Long ?= null): Boolean
     {
-        return this.iReservation.getAssetReservationsOverlaps(start, end, assetID, excludeReservationId).isNotEmpty()
+        return this.iReservationStorage.getAssetReservationsOverlaps(start, end, assetID, excludeReservationId).isNotEmpty()
     }
 }
