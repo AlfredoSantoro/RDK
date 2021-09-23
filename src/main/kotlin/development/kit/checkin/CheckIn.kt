@@ -5,9 +5,9 @@ import java.time.OffsetDateTime
 
 data class CheckIn(
     val reservation: BaseReservation,
-    val time: OffsetDateTime,
-    val id: Long
+    val time: OffsetDateTime
 )
 {
+    val uniqueId: Long ? = null
     var isValid: Boolean = true
 }

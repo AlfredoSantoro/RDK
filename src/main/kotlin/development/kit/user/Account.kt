@@ -8,10 +8,8 @@ data class Account(
     var email: String,
     override var username: String,
     override var password: String,
-    val accountId: Long,
     var accountType: AccountType
-): User(name, surname, accountId)
-
+): User(name, surname)
 {
     init
     {

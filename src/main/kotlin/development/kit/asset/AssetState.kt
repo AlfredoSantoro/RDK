@@ -2,8 +2,9 @@ package development.kit.asset
 
 enum class AssetState
 {
-    AVAILABLE,
+    FREE,
     UNAVAILABLE,
+    PAUSED,
     OCCUPIED,
     UNKNOWN
 }

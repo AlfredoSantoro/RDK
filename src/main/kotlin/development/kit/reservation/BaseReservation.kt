@@ -7,13 +7,14 @@ import development.kit.user.User
 import java.time.OffsetDateTime
 
 open class BaseReservation(
-    private var start: OffsetDateTime,
-    private var end: OffsetDateTime,
-    private var asset: Asset,
-    private val owner: User,
-    private val id: Long
+    open var start: OffsetDateTime,
+    open var end: OffsetDateTime,
+    open var asset: Asset,
+    open val owner: User
 )
 {
+    open val uniqueId: Long ? = null
+
     init
     {
         if ( !DateTimeManager.isAValidPeriod(this.start, this.end) ) throw IllegalReservationException("Illegal Reservation: start > end or startTime = endTime")

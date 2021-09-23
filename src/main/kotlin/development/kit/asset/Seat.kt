@@ -3,10 +3,9 @@ package development.kit.asset
 import development.kit.identifier.Identifier
 
 data class Seat(
-    var seatName: String,
-    var canBeBooked: Boolean,
-    val seatId: Long
-): Asset(seatName, seatId)
+    override var name: String,
+    override var canBeBooked: Boolean,
+): Asset(name, canBeBooked)
 {
     var identifier: Identifier ? = null
 }

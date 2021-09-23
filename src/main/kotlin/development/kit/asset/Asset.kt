@@ -1,6 +1,9 @@
 package development.kit.asset
 
 abstract class Asset(
-    val name: String,
-    val id: Long
+    open val name: String,
+    open var canBeBooked: Boolean,
 )
+{
+    open val uniqueId: Long ? = null
+}

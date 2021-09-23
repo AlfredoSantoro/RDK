@@ -6,12 +6,11 @@ import java.time.OffsetDateTime
 
 data class SeatsReservation(
     var name: String,
-    var startBooking: OffsetDateTime,
-    var endBooking: OffsetDateTime,
+    override var start: OffsetDateTime,
+    override var end: OffsetDateTime,
     var seat: Seat,
     val account: Account,
-    val id: Long
-): BaseReservation(startBooking, endBooking, seat, account, id)
+): BaseReservation(start, end, seat, account)
 {
     var inPause: Boolean = false
 }

@@ -21,8 +21,8 @@ data class ReservationManager(
     {
         reservation.name = newName
         reservation.seat = newSeat
-        reservation.startBooking = newStart
-        reservation.endBooking = newEnd
+        reservation.start = newStart
+        reservation.end = newEnd
         return reservation
     }
 
@@ -32,19 +32,19 @@ data class ReservationManager(
         return reservation
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, asset: Asset, account: Account): BaseReservation
+    fun createBaseReservation(start: OffsetDateTime, end: OffsetDateTime, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, end, asset, account, id)
+        return BaseReservation(start, end, asset, account)
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Duration, asset: Asset, account: Account): BaseReservation
+    fun createBaseReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart), asset, account, id)
+        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart), asset, account)
     }
 
-    fun createBaseReservation(id: Long, start: OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit, asset: Asset, account: Account): BaseReservation
+    fun createBaseReservation(start: OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit, asset: Asset, account: Account): BaseReservation
     {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), asset, account, id)
+        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), asset, account)
     }
 
     fun computeEndReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration): OffsetDateTime
@@ -67,14 +67,14 @@ data class ReservationManager(
         return endComputed
     }
 
-    fun createSeatReservation(id: Long, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
+    fun createSeatReservation(start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
     {
-        return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account, id)
+        return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account)
     }
 
-    fun createSeatReservation(id: Long, name: String, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
+    fun createSeatReservation(name: String, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
     {
-        return SeatsReservation(name, start, end, seat, account, id)
+        return SeatsReservation(name, start, end, seat, account)
     }
 
     fun areUserReservationsOverlaps(userId: Long, start: OffsetDateTime, end: OffsetDateTime,

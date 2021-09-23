@@ -6,9 +6,9 @@ import java.time.OffsetDateTime
 
 object CheckInManager
 {
-    fun makeCheckInNow(baseReservation: BaseReservation, id: Long): CheckIn
+    fun makeCheckInNow(baseReservation: BaseReservation): CheckIn
     {
-        return CheckIn(baseReservation, OffsetDateTime.now(), id)
+        return CheckIn(baseReservation, OffsetDateTime.now())
     }
 
     fun wasCheckInDoneInFrequency(start: OffsetDateTime, checkInFrequency: Duration, newCheckIn: CheckIn): Boolean

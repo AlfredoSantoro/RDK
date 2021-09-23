@@ -1,5 +1,8 @@
 package development.kit.identifier
 
 abstract class Identifier(
-     val id: String
+     open var value: String
 )
+{
+     open val uniqueId: Long ? = null
+}
