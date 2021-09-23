@@ -2,11 +2,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.10"
+    id("maven-publish")
     application
 }
 
-group = "me.alfredosantoro"
-version = "1.0-SNAPSHOT"
+group = "com.alfredosantoro"
+version =  properties["application_version"] as String
 
 repositories {
     mavenCentral()
@@ -19,6 +20,30 @@ dependencies {
 
 tasks.test {
     useJUnit()
+}
+
+tasks.jar {
+    archiveFileName.set("reservation-development-kit-${properties["application_version"]}.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("$rootDir/dist"))
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHub-Packages-Alfredo-Santoro"
+            url = uri("https://maven.pkg.github.com/AlfredoSantoro/RDK")
+            credentials {
+                username = project.properties["repo_username"] as String
+                password = project.properties["repo_password"] as String
+            }
+        }
+    }
+
+    publications {
+        register<MavenPublication>("reservation-development-kit-${properties["application_version"]}.jar") {
+            artifact("$rootDir/dist/reservation-development-kit-${properties["application_version"]}.jar")
+        }
+    }
 }
 
 tasks.withType<KotlinCompile>() {
