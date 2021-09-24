@@ -50,9 +50,9 @@ data class ReservationManager(
     fun computeEndReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration): OffsetDateTime
     {
         val endComputed = start.plus(amountToBeAddedToStart)
-        if ( !DateTimeManager.isAValidPeriod(start, endComputed) )
+        if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(start, endComputed) )
         {
-            throw IllegalReservationException("Illegal Reservation: start > end or startTime = endTime")
+            throw IllegalReservationException("Illegal Reservation: start >= end")
         }
         return endComputed
     }
@@ -60,7 +60,7 @@ data class ReservationManager(
     fun computeEndReservation(start:OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit): OffsetDateTime
     {
         val endComputed = start.plus(amountToBeAddedToStart, representationUnit)
-        if ( !DateTimeManager.isAValidPeriod(start, endComputed) )
+        if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(start, endComputed) )
         {
             throw IllegalReservationException("Illegal Reservation: start > end or startTime = endTime")
         }

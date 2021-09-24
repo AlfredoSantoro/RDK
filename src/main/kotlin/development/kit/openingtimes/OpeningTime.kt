@@ -13,6 +13,6 @@ open class OpeningTime(
 
     init
     {
-        if (!DateTimeManager.isAValidTime(this.open, this.close)) throw OpeningTimeException("Illegal opening time: open > close")
+        if (!DateTimeManager.isStartTimeBeforeEndTime(this.open, this.close)) throw OpeningTimeException("Illegal opening time: open >= close")
     }
 }

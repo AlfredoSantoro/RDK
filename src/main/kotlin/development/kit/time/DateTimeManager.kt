@@ -5,20 +5,14 @@ import java.time.OffsetTime
 
 object DateTimeManager
 {
-    fun isAValidPeriod(start: OffsetDateTime, end: OffsetDateTime): Boolean
+
+    fun isStartDateTimeBeforeEndDateTime(start: OffsetDateTime, end: OffsetDateTime): Boolean
     {
-        return if ( start.dayOfWeek == end.dayOfWeek )
-        {
-            this.isAValidTime(start.toOffsetTime(),end.toOffsetTime())
-        }
-        else
-        {
-            start.isBefore(end)
-        }
+        return start.isBefore(end)
     }
 
-    fun isAValidTime(start: OffsetTime, end: OffsetTime): Boolean
+    fun isStartTimeBeforeEndTime(start: OffsetTime, end: OffsetTime): Boolean
     {
-        return start < end
+        return start.isBefore(end)
     }
 }

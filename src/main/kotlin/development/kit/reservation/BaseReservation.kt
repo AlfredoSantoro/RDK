@@ -17,7 +17,10 @@ open class BaseReservation(
 
     init
     {
-        if ( !DateTimeManager.isAValidPeriod(this.start, this.end) ) throw IllegalReservationException("Illegal Reservation: start > end or startTime = endTime")
+        if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(this.start, this.end) )
+        {
+            throw IllegalReservationException("Illegal Reservation: start >= end")
+        }
     }
 
     protected fun isOnGoing(start: OffsetDateTime, end: OffsetDateTime): Boolean
