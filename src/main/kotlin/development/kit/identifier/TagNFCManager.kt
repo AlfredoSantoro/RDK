@@ -1,6 +1,6 @@
 package development.kit.identifier
 
-class TagNFCManager
+object TagNFCManager
 {
     fun updateTagNFC(tagNFCToUpdate: TagNFC, newName: String, newValue: String): TagNFC
     {

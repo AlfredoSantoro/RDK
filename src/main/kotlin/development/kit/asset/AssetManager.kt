@@ -1,6 +1,6 @@
 package development.kit.asset
 
-class AssetManager
+object AssetManager
 {
     fun createSeat(insertUpdateSeat: InsertUpdateSeat): Seat
     {

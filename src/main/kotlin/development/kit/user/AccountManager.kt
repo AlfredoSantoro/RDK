@@ -3,9 +3,7 @@ package development.kit.user
 import development.kit.exception.LoginException
 import org.apache.commons.codec.digest.DigestUtils
 
-class AccountManager(
-    private val iUserStorage: IUserStorage
-)
+object AccountManager
 {
     fun updateAccount(accountToUpdate: Account, newAccount: UpdateAccount): Account
     {
@@ -24,6 +22,7 @@ class AccountManager(
             newAccount.decodedPassword, newAccount.accountType)
     }
 
+    @Throws(LoginException::class)
     fun checkLoginData(submittedLoginData: User, accountDataToCompare: Account): Account
     {
         val loginUserPasswordEncoded = DigestUtils.sha256Hex(submittedLoginData.password)
