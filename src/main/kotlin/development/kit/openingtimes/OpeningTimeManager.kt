@@ -1,28 +1,31 @@
 package development.kit.openingtimes
 
+import java.time.DayOfWeek
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 
-class OpeningTimeManager(
-    private val iOpeningTime: IOpeningTimeStorage
-)
+object OpeningTimeManager
 {
-    fun reservationIsIncludedInTheOpeningTimes(reservationStart: OffsetDateTime, reservationEnd: OffsetDateTime): Boolean
+    fun reservationIsIncludedInTheOpeningTimes(periodicOpeningTime: PeriodicOpeningTime,
+                                               reservationStart: OffsetDateTime,
+                                               reservationEnd: OffsetDateTime): Boolean
     {
-        val openTime = this.iOpeningTime.findByDayOfWeek(reservationStart.dayOfWeek)
-        return if ( openTime === null ) false
-        else
-        {
-            reservationStart.toOffsetTime() >= openTime.open
-                    && reservationStart.toOffsetTime() <= openTime.close
-                    && reservationEnd.toOffsetTime() <= openTime.close
-        }
+            return reservationStart.toOffsetTime() >= periodicOpeningTime.openingTime
+                    && reservationStart.toOffsetTime() <= periodicOpeningTime.closingTime
+                    && reservationEnd.toOffsetTime() <= periodicOpeningTime.closingTime
     }
 
-    fun updateOpeningTimes(openingTime: OpeningTime, newOpen: OffsetTime, newClose: OffsetTime): OpeningTime
+    fun updatePeriodicOpeningTimes(openingTime: PeriodicOpeningTime,
+                           newOpen: OffsetTime,
+                           newClose: OffsetTime): PeriodicOpeningTime
     {
-        openingTime.open = newOpen
-        openingTime.close = newClose
+        openingTime.openingTime = newOpen
+        openingTime.closingTime = newClose
         return openingTime
+    }
+
+    fun createPeriodicOpeningTime(dayOfWeek: DayOfWeek, open: OffsetTime, close: OffsetTime): PeriodicOpeningTime
+    {
+        return PeriodicOpeningTime(dayOfWeek, open, close)
     }
 }

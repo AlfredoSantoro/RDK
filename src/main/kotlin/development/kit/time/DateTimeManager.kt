@@ -15,4 +15,20 @@ object DateTimeManager
     {
         return start.isBefore(end)
     }
+
+    fun isStartTimeAfterOrEqualEndTime(start: OffsetTime, end: OffsetTime): Boolean
+    {
+        return start.isAfter(end) || start == end
+    }
+
+    fun isStartDateTimeAfterOrEqualEndDateTime(start: OffsetDateTime, end: OffsetDateTime): Boolean
+    {
+        return start.isAfter(end) || start == end
+    }
+
+
+    fun isStartDateTimeBeforeOrEqualEndDateTime(start: OffsetDateTime, end: OffsetDateTime): Boolean
+    {
+        return start.isBefore(end) || start == end
+    }
 }

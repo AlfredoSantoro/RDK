@@ -7,10 +7,10 @@ import development.kit.user.User
 import java.time.OffsetDateTime
 
 open class BaseReservation(
-    open var start: OffsetDateTime,
-    open var end: OffsetDateTime,
-    open var asset: Asset,
-    open val owner: User
+    val start: OffsetDateTime,
+    val end: OffsetDateTime,
+    val asset: Asset,
+    val owner: User
 )
 {
     open val uniqueId: Long ? = null

@@ -44,4 +44,27 @@ class DateTimeManagerTest
         val end = OffsetTime.now().minusMinutes(1)
         Assert.assertFalse(DateTimeManager.isStartTimeBeforeEndTime(start,end))
     }
+
+    @Test
+    fun `Should say that startDateTime is after to another`()
+    {
+        Assert.assertTrue(DateTimeManager
+            .isStartDateTimeAfterOrEqualEndDateTime(OffsetDateTime.now().plusHours(1), OffsetDateTime.now()))
+    }
+
+    @Test
+    fun `Should say that startDateTime is equal to another`()
+    {
+        val time = OffsetDateTime.now()
+        Assert.assertTrue(DateTimeManager
+            .isStartDateTimeAfterOrEqualEndDateTime(time, time))
+    }
+
+    @Test
+    fun `Should say that startDateTime is before to another`()
+    {
+        Assert.assertTrue(DateTimeManager
+            .isStartDateTimeBeforeOrEqualEndDateTime(OffsetDateTime.now(), OffsetDateTime.now().plusHours(1)))
+    }
+
 }
