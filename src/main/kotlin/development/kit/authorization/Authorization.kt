@@ -1,5 +1,7 @@
 package development.kit.authorization
 
+import development.kit.exception.IllegalAuthorizationException
+import development.kit.time.DateTimeManager
 import development.kit.user.Account
 import java.time.OffsetDateTime
 
@@ -12,4 +14,12 @@ data class Authorization(
     val uniqueId: Long ? = null
     var reason: String ? = null
     var granted: Boolean = false
+
+    init
+    {
+        if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(this.start, this.end) )
+        {
+            throw IllegalAuthorizationException("Illegal Authorization: start >= end")
+        }
+    }
 }

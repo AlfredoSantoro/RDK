@@ -3,33 +3,32 @@ package development.kit.authorization
 import development.kit.user.Account
 import java.time.OffsetDateTime
 
-class AuthorizationManager(
-    private val iAuthorizationStorage: IAuthorizationStorage
-)
+object AuthorizationManager
 {
     fun createAuthorization(start: OffsetDateTime, end: OffsetDateTime, account: Account): Authorization
     {
         return Authorization(start, end, account)
     }
 
-    fun updateAuthorization(updateAuthorization: UpdateAuthorization, newAuthorization: Authorization): Authorization
+    fun updateAuthorization(newData: UpdateAuthorization, authorizationToUpdate: Authorization): Authorization
     {
-        newAuthorization.start = updateAuthorization.start
-        newAuthorization.end = updateAuthorization.end
-        newAuthorization.reason = updateAuthorization.reason
-        return newAuthorization
+        authorizationToUpdate.start = newData.start
+        authorizationToUpdate.end = newData.end
+        authorizationToUpdate.reason = newData.reason
+        return authorizationToUpdate
     }
 
-    fun userHaveAuthorization(start: OffsetDateTime, end: OffsetDateTime, username: String): Boolean
+    fun userHaveAuthorization(userAuthorization: Authorization?): Boolean
     {
-        val userAuthorization = this.iAuthorizationStorage.findAuthorizationBetween(start, end, username)
-        if ( userAuthorization === null ) return false
-        return userAuthorization.granted
+        return userAuthorization?.granted ?: false
     }
 
-    fun areAuthorizationsOverlaps(start: OffsetDateTime, end: OffsetDateTime, userId: Long): Boolean
+    fun areAuthorizationsOverlaps(iAuthorizationStorage: IAuthorization,
+                                  start: OffsetDateTime,
+                                  end: OffsetDateTime,
+                                  userId: Long): Boolean
     {
-        return this.iAuthorizationStorage.findAuthorizationOverlaps(start, end, userId) > 0
+        return iAuthorizationStorage.findUserAuthorizationOverlaps(start, end, userId) > 0
     }
 
     fun approveAuthorization(authorization: Authorization): Authorization
