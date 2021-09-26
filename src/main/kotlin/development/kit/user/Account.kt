@@ -1,18 +1,29 @@
 package development.kit.user
 
-import org.apache.commons.codec.digest.DigestUtils
+import development.kit.utils.PasswordManager
 
-class Account(
+open class Account(
     name: String,
     surname: String,
     email: String,
     username: String,
     password: String,
-    var accountType: AccountType
+    var accountType: AccountType,
+    var accountId: Long ? = null
 ): User(username, password, name, surname, email)
 {
     init
     {
-        this.password = DigestUtils.sha256Hex(this.password)
+        this.password = PasswordManager.encodePassword(this.password)
+        println("encoded account password")
     }
+
+    constructor(): this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        AccountType.UNKNOWN
+    )
 }

@@ -3,7 +3,7 @@ package development.kit.user
 import development.kit.exception.LoginException
 import org.apache.commons.codec.digest.DigestUtils
 
-object AccountManager
+object AccountManagerLogic
 {
     fun updateAccount(accountToUpdate: Account, newAccount: UpdateAccount): Account
     {

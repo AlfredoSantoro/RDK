@@ -7,6 +7,3 @@ abstract class User(
     var surname: String,
     var email: String
 )
-{
-    val uniqueId: Long ? = null
-}

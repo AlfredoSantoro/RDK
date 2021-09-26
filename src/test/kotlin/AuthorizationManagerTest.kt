@@ -2,7 +2,7 @@ import development.kit.authorization.AuthorizationManager
 import development.kit.authorization.IAuthorization
 import development.kit.authorization.UpdateAuthorization
 import development.kit.exception.IllegalAuthorizationException
-import development.kit.user.AccountManager
+import development.kit.user.AccountManagerLogic
 import development.kit.user.AccountType
 import development.kit.user.CreateAccount
 import org.junit.Assert
@@ -17,7 +17,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val auth = AuthorizationManager.createAuthorization(OffsetDateTime.now(), OffsetDateTime.now().plusDays(30),
             newAccount)
@@ -30,7 +30,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val authorizationStart = OffsetDateTime.now()
         val authorizationEnd = authorizationStart.minusDays(2)
@@ -43,7 +43,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val startAuthorization = OffsetDateTime.now()
         val endAuthorization = OffsetDateTime.now().plusDays(30)
@@ -63,7 +63,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val startAuthorization = OffsetDateTime.now()
         val endAuthorization = OffsetDateTime.now().plusDays(30)
@@ -79,7 +79,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val startAuthorization = OffsetDateTime.now()
         val endAuthorization = OffsetDateTime.now().plusDays(30)
@@ -94,7 +94,7 @@ class AuthorizationManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
         val startAuthorization = OffsetDateTime.now()
         val endAuthorization = OffsetDateTime.now().plusDays(30)

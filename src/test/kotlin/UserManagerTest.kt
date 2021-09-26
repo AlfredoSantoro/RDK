@@ -12,7 +12,7 @@ class UserManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
     }
 
@@ -23,12 +23,12 @@ class UserManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", decodedPassword, AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
-        val updateAccount = UpdateAccount(createAccount.name, createAccount.surname, "newemail", "newusername",
+        val updateAccount = UpdateAccount(-1, createAccount.name, createAccount.surname, "newemail", "newusername",
             decodedPassword, newAccount.accountType
         )
-        val accountUpdated = AccountManager.updateAccount(newAccount, updateAccount)
+        val accountUpdated = AccountManagerLogic.updateAccount(newAccount, updateAccount)
         Assert.assertNotNull(accountUpdated)
         Assert.assertEquals(accountUpdated.email, updateAccount.email)
         Assert.assertEquals(accountUpdated.username, updateAccount.username)
@@ -42,12 +42,12 @@ class UserManagerTest
         val createAccount = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", decodedPassword, AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(createAccount)
+        val newAccount = AccountManagerLogic.createAccount(createAccount)
         Assert.assertNotNull(newAccount)
-        val updateAccount = UpdateAccount(createAccount.name, createAccount.surname, createAccount.email, createAccount.username,
+        val updateAccount = UpdateAccount(-1, createAccount.name, createAccount.surname, createAccount.email, createAccount.username,
             "newpass", newAccount.accountType
         )
-        val accountUpdated = AccountManager.updateAccount(newAccount, updateAccount)
+        val accountUpdated = AccountManagerLogic.updateAccount(newAccount, updateAccount)
         Assert.assertNotNull(accountUpdated)
         Assert.assertEquals(accountUpdated.password, DigestUtils.sha256Hex(updateAccount.password))
     }
@@ -58,10 +58,10 @@ class UserManagerTest
         val account = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(account)
+        val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
         val wrongLoginUserData = LoginData("anotherusername", "anotherpass")
-        AccountManager.checkLoginData(wrongLoginUserData, newAccount)
+        AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
     }
 
     @Test(expected = LoginException::class)
@@ -70,10 +70,10 @@ class UserManagerTest
         val account = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(account)
+        val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
         val wrongLoginUserData = LoginData("", "")
-        AccountManager.checkLoginData(wrongLoginUserData, newAccount)
+        AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
     }
 
     @Test
@@ -83,9 +83,9 @@ class UserManagerTest
         val account = CreateAccount("testAccountName", "testAccountSurname",
             "fakeemail@test.it", "usernameTest", decodedPass, AccountType.USER
         )
-        val newAccount = AccountManager.createAccount(account)
+        val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
         val loginData = LoginData(newAccount.username, decodedPass)
-        AccountManager.checkLoginData(loginData, newAccount)
+        AccountManagerLogic.checkLoginData(loginData, newAccount)
     }
 }
