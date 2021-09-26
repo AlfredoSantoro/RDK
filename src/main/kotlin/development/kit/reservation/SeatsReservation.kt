@@ -4,17 +4,13 @@ import development.kit.asset.Seat
 import development.kit.user.Account
 import java.time.OffsetDateTime
 
-data class SeatsReservation(
+class SeatsReservation(
     var name: String,
-    var reservationStart: OffsetDateTime,
-    var reservationEnd: OffsetDateTime,
+    start: OffsetDateTime,
+    end: OffsetDateTime,
     var seat: Seat,
-    val account: Account,
-): BaseReservation(reservationStart, reservationEnd, seat, account)
+    owner: Account,
+): BaseReservation(start, end, seat, owner)
 {
-    init
-    {
-
-    }
     var inPause: Boolean = false
 }

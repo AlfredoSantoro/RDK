@@ -29,9 +29,9 @@ class OpeningTimeManagerTest
         val newOpeningTime = OffsetTime.now().minusMinutes(10)
         val openingTimeUpdated =
             OpeningTimeManager
-                .updatePeriodicOpeningTimes(openingTime, newOpeningTime, openingTime.closingTime)
+                .updatePeriodicOpeningTimes(openingTime, newOpeningTime, openingTime.close)
         Assert.assertNotNull(openingTimeUpdated)
-        Assert.assertEquals(openingTimeUpdated.openingTime, newOpeningTime)
+        Assert.assertEquals(openingTimeUpdated.open, newOpeningTime)
     }
 
     @Test
@@ -42,7 +42,7 @@ class OpeningTimeManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(reservationStart,
+        val reservation = ReservationManager.createSeatReservation(reservationStart,
             reservationStart.plusMinutes(10), seat, account)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager
@@ -61,7 +61,7 @@ class OpeningTimeManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(reservationStart,
+        val reservation = ReservationManager.createSeatReservation(reservationStart,
             reservationStart.plusMinutes(10), seat, account)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager

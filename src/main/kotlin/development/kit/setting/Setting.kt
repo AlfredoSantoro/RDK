@@ -2,7 +2,7 @@ package development.kit.setting
 
 import java.time.temporal.ChronoUnit
 
-data class Setting(
+class Setting(
     val name: String,
     var value: Int,
     var description: String,

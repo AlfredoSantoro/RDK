@@ -1,6 +1,6 @@
 package development.kit.identifier
 
-data class TagNFC(
+class TagNFC(
     var name: String,
-    override var value: String
+    value: String
 ): Identifier(value)

@@ -60,7 +60,7 @@ class UserManagerTest
         )
         val newAccount = AccountManager.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = User("anotherusername", "anotherpass")
+        val wrongLoginUserData = LoginData("anotherusername", "anotherpass")
         AccountManager.checkLoginData(wrongLoginUserData, newAccount)
     }
 
@@ -72,7 +72,7 @@ class UserManagerTest
         )
         val newAccount = AccountManager.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = User("", "")
+        val wrongLoginUserData = LoginData("", "")
         AccountManager.checkLoginData(wrongLoginUserData, newAccount)
     }
 
@@ -85,7 +85,7 @@ class UserManagerTest
         )
         val newAccount = AccountManager.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val loginData = User(newAccount.username, decodedPass)
+        val loginData = LoginData(newAccount.username, decodedPass)
         AccountManager.checkLoginData(loginData, newAccount)
     }
 }

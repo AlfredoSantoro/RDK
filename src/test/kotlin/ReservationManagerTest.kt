@@ -12,35 +12,35 @@ class ReservationManagerTest
 {
 
     @Test
-    fun `Should create a simple base reservation`()
+    fun `Should create a simple seat reservation`()
     {
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(OffsetDateTime.now(),
+        val reservation = ReservationManager.createSeatReservation(OffsetDateTime.now(),
             OffsetDateTime.now().plusMinutes(10), seat, account)
         Assert.assertNotNull(reservation)
     }
 
     @Test
-    fun `Should create a base reservation with an amount to be added to start`()
+    fun `Should create a seat reservation with an amount to be added to start`()
     {
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(OffsetDateTime.now(),
+        val reservation = ReservationManager.createSeatReservation("testName", OffsetDateTime.now(),
             Duration.ofHours(1), seat, account)
         Assert.assertNotNull(reservation)
         Assert.assertEquals(reservation.end, reservation.start.plus(Duration.ofHours(1)))
     }
 
     @Test
-    fun `Should create a base reservation with an amount to be added to start and a representationUnit`()
+    fun `Should create a seat reservation with an amount to be added to start and a representationUnit`()
     {
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(OffsetDateTime.now(),
+        val reservation = ReservationManager.createSeatReservation("testName", OffsetDateTime.now(),
             1, ChronoUnit.HOURS, seat, account)
         Assert.assertNotNull(reservation)
         Assert.assertEquals(reservation.end, reservation.start.plus(Duration.ofHours(1)))
@@ -84,8 +84,8 @@ class ReservationManagerTest
             newStart, newEnd)
         Assert.assertNotNull(updatedReservation)
         Assert.assertEquals(updatedReservation.name, newName)
-        Assert.assertEquals(updatedReservation.reservationStart, newStart)
-        Assert.assertEquals(updatedReservation.reservationEnd, newEnd)
+        Assert.assertEquals(updatedReservation.start, newStart)
+        Assert.assertEquals(updatedReservation.end, newEnd)
     }
 
     @Test

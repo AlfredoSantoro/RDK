@@ -2,14 +2,14 @@ package development.kit.user
 
 import org.apache.commons.codec.digest.DigestUtils
 
-data class Account(
-    var name: String,
-    var surname: String,
-    var email: String,
-    override var username: String,
-    override var password: String,
+class Account(
+    name: String,
+    surname: String,
+    email: String,
+    username: String,
+    password: String,
     var accountType: AccountType
-): User(name, surname)
+): User(username, password, name, surname, email)
 {
     init
     {

@@ -16,7 +16,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(
+        val reservation = ReservationManager.createSeatReservation(
             OffsetDateTime.now(),
             OffsetDateTime.now().plusMinutes(10), seat, account)
         Assert.assertNotNull(reservation)
@@ -30,7 +30,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(
+        val reservation = ReservationManager.createSeatReservation(
             OffsetDateTime.now(),
             OffsetDateTime.now().plusMinutes(10), seat, account)
         Assert.assertNotNull(reservation)
@@ -47,7 +47,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(startReservation, startReservation.plusHours(1),
+        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
             seat, account)
         Assert.assertNotNull(reservation)
         val checkIn = CheckInManager.makeCheckInNow(reservation, account)
@@ -63,7 +63,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(startReservation, startReservation.plusHours(1),
+        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
             seat, account)
         Assert.assertNotNull(reservation)
         val initialCheckIn = CheckInManager.makeCheckInNow(reservation, account)
@@ -80,7 +80,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(startReservation, startReservation.plusHours(1),
+        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
             seat, account)
         Assert.assertNotNull(reservation)
         val initialCheckIn = CheckInManager.makeCheckInNow(reservation, account)
@@ -95,7 +95,7 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createBaseReservation(startReservation, startReservation.plusHours(1),
+        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
             seat, account)
         Assert.assertNotNull(reservation)
         Assert.assertFalse(CheckInManager.isFrequencyIntervalInProgress(startReservation, checkInFrequency))

@@ -5,7 +5,7 @@ import development.kit.time.DateTimeManager
 import development.kit.user.Account
 import java.time.OffsetDateTime
 
-data class Authorization(
+class Authorization(
     var start: OffsetDateTime,
     var end: OffsetDateTime,
     var account: Account

@@ -4,7 +4,7 @@ import development.kit.reservation.BaseReservation
 import development.kit.user.Account
 import java.time.OffsetDateTime
 
-data class CheckIn(
+class CheckIn(
     val reservation: BaseReservation,
     val time: OffsetDateTime,
     val owner: Account

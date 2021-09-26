@@ -10,17 +10,17 @@ object OpeningTimeManager
                                                reservationStart: OffsetDateTime,
                                                reservationEnd: OffsetDateTime): Boolean
     {
-            return reservationStart.toOffsetTime() >= periodicOpeningTime.openingTime
-                    && reservationStart.toOffsetTime() <= periodicOpeningTime.closingTime
-                    && reservationEnd.toOffsetTime() <= periodicOpeningTime.closingTime
+            return reservationStart.toOffsetTime() >= periodicOpeningTime.open
+                    && reservationStart.toOffsetTime() <= periodicOpeningTime.close
+                    && reservationEnd.toOffsetTime() <= periodicOpeningTime.close
     }
 
     fun updatePeriodicOpeningTimes(openingTime: PeriodicOpeningTime,
                            newOpen: OffsetTime,
                            newClose: OffsetTime): PeriodicOpeningTime
     {
-        openingTime.openingTime = newOpen
-        openingTime.closingTime = newClose
+        openingTime.open = newOpen
+        openingTime.close = newClose
         return openingTime
     }
 

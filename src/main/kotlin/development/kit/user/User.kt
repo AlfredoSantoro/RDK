@@ -1,8 +1,11 @@
 package development.kit.user
 
-open class User(
-    open var username: String,
-    open var password: String,
+abstract class User(
+    var username: String,
+    var password: String,
+    var name: String,
+    var surname: String,
+    var email: String
 )
 {
     val uniqueId: Long ? = null

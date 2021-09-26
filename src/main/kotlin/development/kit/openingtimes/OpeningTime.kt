@@ -4,12 +4,12 @@ import development.kit.exception.OpeningTimeException
 import development.kit.time.DateTimeManager
 import java.time.OffsetTime
 
-open class OpeningTime(
-    private val open: OffsetTime,
-    private val close: OffsetTime
+abstract class OpeningTime(
+    var open: OffsetTime,
+    var close: OffsetTime
 )
 {
-    open val uniqueId: Long ? = null
+    val uniqueId: Long ? = null
 
     init
     {

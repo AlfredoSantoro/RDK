@@ -1,6 +1,5 @@
 package development.kit.reservation
 
-import development.kit.asset.Asset
 import development.kit.asset.Seat
 import development.kit.exception.IllegalReservationException
 import development.kit.time.DateTimeManager
@@ -11,19 +10,20 @@ import java.time.temporal.ChronoUnit
 
 object ReservationManager
 {
-    fun createBaseReservation(start: OffsetDateTime, end: OffsetDateTime, asset: Asset, account: Account): BaseReservation
+
+    fun createSeatReservation(name: String, start: OffsetDateTime, amountToBeAddedToStart: Duration,
+                              seat: Seat, account: Account): SeatsReservation
     {
-        return BaseReservation(start, end, asset, account)
+        return SeatsReservation(name, start, this.computeEndReservation(start, amountToBeAddedToStart), seat, account)
     }
 
-    fun createBaseReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration, asset: Asset, account: Account): BaseReservation
+    fun createSeatReservation(name: String, start: OffsetDateTime,
+                              amountToBeAddedToStart: Long,
+                              representationUnit: ChronoUnit,
+                              seat: Seat, account: Account): SeatsReservation
     {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart), asset, account)
-    }
-
-    fun createBaseReservation(start: OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit, asset: Asset, account: Account): BaseReservation
-    {
-        return BaseReservation(start, this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), asset, account)
+        return SeatsReservation(name, start,
+            this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), seat, account)
     }
 
     fun createSeatReservation(start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
@@ -31,7 +31,8 @@ object ReservationManager
         return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account)
     }
 
-    fun createSeatReservation(name: String, start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
+    fun createSeatReservation(name: String, start: OffsetDateTime, end: OffsetDateTime,
+                              seat: Seat, account: Account): SeatsReservation
     {
         return SeatsReservation(name, start, end, seat, account)
     }
@@ -44,8 +45,8 @@ object ReservationManager
     {
         reservation.name = newName
         reservation.seat = newSeat
-        reservation.reservationStart = newStart
-        reservation.reservationEnd = newEnd
+        reservation.start = newStart
+        reservation.end = newEnd
         return reservation
     }
 
@@ -66,7 +67,8 @@ object ReservationManager
         return endComputed
     }
 
-    fun computeEndReservation(start:OffsetDateTime, amountToBeAddedToStart: Long, representationUnit: ChronoUnit): OffsetDateTime
+    fun computeEndReservation(start:OffsetDateTime, amountToBeAddedToStart: Long,
+                              representationUnit: ChronoUnit): OffsetDateTime
     {
         val endComputed = start.plus(amountToBeAddedToStart, representationUnit)
         if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(start, endComputed) )

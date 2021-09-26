@@ -23,9 +23,9 @@ object AccountManager
     }
 
     @Throws(LoginException::class)
-    fun checkLoginData(submittedLoginData: User, accountDataToCompare: Account): Account
+    fun checkLoginData(submittedLoginData: LoginData, accountDataToCompare: Account): Account
     {
-        val loginUserPasswordEncoded = DigestUtils.sha256Hex(submittedLoginData.password)
+        val loginUserPasswordEncoded = DigestUtils.sha256Hex(submittedLoginData.decodedPassword)
         if ( submittedLoginData.username == accountDataToCompare.username && loginUserPasswordEncoded == accountDataToCompare.password )
         {
             return accountDataToCompare
