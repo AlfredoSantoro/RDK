@@ -6,7 +6,6 @@ object AccountManagerLogic
 {
     fun updateAccount(accountToUpdate: Account, newAccount: UpdateAccount): Account
     {
-        println("@@@ password to encode is -> ${newAccount.password}")
         accountToUpdate.name = newAccount.name
         accountToUpdate.surname = newAccount.surname
         accountToUpdate.email = newAccount.email
