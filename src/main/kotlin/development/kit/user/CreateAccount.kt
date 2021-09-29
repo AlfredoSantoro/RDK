@@ -5,6 +5,6 @@ data class CreateAccount(
     val surname: String,
     val email: String,
     val username: String,
-    val decodedPassword: String,
+    var password: String,
     val accountType: AccountType
 )

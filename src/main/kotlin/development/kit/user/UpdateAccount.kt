@@ -6,6 +6,6 @@ data class UpdateAccount(
     val surname: String,
     val email: String,
     val username: String,
-    val password: String,
+    var password: String,
     val accountType: AccountType
 )

@@ -13,6 +13,7 @@ class AccountManagerStorage(
         return if ( accountFounded !== null )
         {
             val accountUpdated = AccountManagerLogic.updateAccount(accountFounded, updateAccount)
+            println("@@@ password encoded is -> ${accountUpdated.password}")
             this.storage.updateAccount(accountUpdated)
         } else throw IllegalAccountException("account with id #${updateAccount.id} not found")
     }

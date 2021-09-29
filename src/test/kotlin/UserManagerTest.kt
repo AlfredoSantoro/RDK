@@ -1,6 +1,6 @@
 import development.kit.exception.LoginException
 import development.kit.user.*
-import org.apache.commons.codec.digest.DigestUtils
+import development.kit.utils.PasswordManager
 import org.junit.Assert
 import org.junit.Test
 
@@ -28,11 +28,12 @@ class UserManagerTest
         val updateAccount = UpdateAccount(-1, createAccount.name, createAccount.surname, "newemail", "newusername",
             decodedPassword, newAccount.accountType
         )
+        updateAccount.password = PasswordManager.encodePassword(updateAccount.password)
         val accountUpdated = AccountManagerLogic.updateAccount(newAccount, updateAccount)
         Assert.assertNotNull(accountUpdated)
         Assert.assertEquals(accountUpdated.email, updateAccount.email)
         Assert.assertEquals(accountUpdated.username, updateAccount.username)
-        Assert.assertEquals(accountUpdated.password, DigestUtils.sha256Hex(updateAccount.password))
+        Assert.assertEquals(accountUpdated.password, updateAccount.password)
     }
 
     @Test
@@ -47,9 +48,10 @@ class UserManagerTest
         val updateAccount = UpdateAccount(-1, createAccount.name, createAccount.surname, createAccount.email, createAccount.username,
             "newpass", newAccount.accountType
         )
+        updateAccount.password = PasswordManager.encodePassword(updateAccount.password)
         val accountUpdated = AccountManagerLogic.updateAccount(newAccount, updateAccount)
         Assert.assertNotNull(accountUpdated)
-        Assert.assertEquals(accountUpdated.password, DigestUtils.sha256Hex(updateAccount.password))
+        Assert.assertEquals(accountUpdated.password, updateAccount.password)
     }
 
     @Test(expected = LoginException::class)
@@ -60,7 +62,7 @@ class UserManagerTest
         )
         val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = LoginData("anotherusername", "anotherpass")
+        val wrongLoginUserData = LoginData("anotherusername", PasswordManager.encodePassword("anotherpass"))
         AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
     }
 
@@ -72,20 +74,20 @@ class UserManagerTest
         )
         val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = LoginData("", "")
+        val wrongLoginUserData = LoginData("", PasswordManager.encodePassword(""))
         AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
     }
 
     @Test
     fun `Should be successful login`()
     {
-        val decodedPass = "testpass"
         val account = CreateAccount("testAccountName", "testAccountSurname",
-            "fakeemail@test.it", "usernameTest", decodedPass, AccountType.USER
+            "fakeemail@test.it", "usernameTest", "simple_pass", AccountType.USER
         )
+        account.password = PasswordManager.encodePassword(account.password)
         val newAccount = AccountManagerLogic.createAccount(account)
         Assert.assertNotNull(newAccount)
-        val loginData = LoginData(newAccount.username, decodedPass)
+        val loginData = LoginData(newAccount.username, newAccount.password)
         AccountManagerLogic.checkLoginData(loginData, newAccount)
     }
 }
