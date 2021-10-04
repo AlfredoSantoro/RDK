@@ -12,36 +12,36 @@ object ReservationManager
 {
 
     fun createSeatReservation(name: String, start: OffsetDateTime, amountToBeAddedToStart: Duration,
-                              seat: Seat, account: Account): SeatsReservation
+                              seat: Seat, account: Account): SeatsReservationWithPause
     {
-        return SeatsReservation(name, start, this.computeEndReservation(start, amountToBeAddedToStart), seat, account)
+        return SeatsReservationWithPause(name, start, this.computeEndReservation(start, amountToBeAddedToStart), seat, account)
     }
 
     fun createSeatReservation(name: String, start: OffsetDateTime,
                               amountToBeAddedToStart: Long,
                               representationUnit: ChronoUnit,
-                              seat: Seat, account: Account): SeatsReservation
+                              seat: Seat, account: Account): SeatsReservationWithPause
     {
-        return SeatsReservation(name, start,
+        return SeatsReservationWithPause(name, start,
             this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), seat, account)
     }
 
-    fun createSeatReservation(start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservation
+    fun createSeatReservation(start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservationWithPause
     {
-        return SeatsReservation("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account)
+        return SeatsReservationWithPause("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account)
     }
 
     fun createSeatReservation(name: String, start: OffsetDateTime, end: OffsetDateTime,
-                              seat: Seat, account: Account): SeatsReservation
+                              seat: Seat, account: Account): SeatsReservationWithPause
     {
-        return SeatsReservation(name, start, end, seat, account)
+        return SeatsReservationWithPause(name, start, end, seat, account)
     }
 
-    fun updateSeatReservation(reservation: SeatsReservation,
+    fun updateSeatReservation(reservation: SeatsReservationWithPause,
                               newSeat: Seat,
                               newName: String,
                               newStart: OffsetDateTime,
-                              newEnd: OffsetDateTime): SeatsReservation
+                              newEnd: OffsetDateTime): SeatsReservationWithPause
     {
         reservation.name = newName
         reservation.seat = newSeat
@@ -51,7 +51,7 @@ object ReservationManager
     }
 
 
-    fun pauseReservation(reservation: SeatsReservation): SeatsReservation
+    fun pauseReservation(reservation: SeatsReservationWithPause): SeatsReservationWithPause
     {
         reservation.inPause = true
         return reservation

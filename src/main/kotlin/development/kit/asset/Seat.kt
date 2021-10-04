@@ -2,10 +2,15 @@ package development.kit.asset
 
 import development.kit.identifier.Identifier
 
-class Seat(
+open class Seat(
     name: String,
     canBeBooked: Boolean,
 ): Asset(name, canBeBooked)
 {
+    constructor(): this(
+        "",
+        false
+    )
+
     var identifier: Identifier ? = null
 }

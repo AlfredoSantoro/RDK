@@ -1,9 +1,13 @@
 package development.kit.asset
 
-abstract class Asset(
+open class Asset(
     var name: String,
     var canBeBooked: Boolean,
 )
 {
+    constructor(): this(
+        "",
+        false
+    )
     val uniqueId: Long ? = null
 }
