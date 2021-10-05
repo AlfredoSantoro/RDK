@@ -17,10 +17,10 @@ object AssetManager
         return seatToUpdate
     }
 
-    fun getAssetState(asset: Asset, isSeatPaused:Boolean, isSeatBookedForDate: Boolean): AssetState
+    fun getAssetState(canBeBooked: Boolean, isSeatPaused:Boolean, isSeatBookedForDate: Boolean): AssetState
     {
         return when {
-            !asset.canBeBooked -> AssetState.UNAVAILABLE
+            !canBeBooked -> AssetState.UNAVAILABLE
             isSeatPaused -> AssetState.PAUSED
             isSeatBookedForDate -> AssetState.OCCUPIED
             else -> AssetState.FREE

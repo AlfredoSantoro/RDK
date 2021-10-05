@@ -21,6 +21,7 @@ object AccountManagerLogic
             newAccount.password, newAccount.accountType)
     }
 
+    // TODO modificare con user invece che account
     @Throws(LoginException::class)
     fun checkLoginData(submittedLoginData: LoginData, accountDataToCompare: Account): Account
     {
