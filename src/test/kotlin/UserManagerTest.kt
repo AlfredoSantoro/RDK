@@ -1,5 +1,7 @@
-import development.kit.exception.LoginException
-import development.kit.user.*
+import development.kit.user.AccountManagerLogic
+import development.kit.user.AccountType
+import development.kit.user.CreateAccount
+import development.kit.user.UpdateAccount
 import development.kit.utils.PasswordManager
 import org.junit.Assert
 import org.junit.Test
@@ -52,42 +54,5 @@ class UserManagerTest
         val accountUpdated = AccountManagerLogic.updateAccount(newAccount, updateAccount)
         Assert.assertNotNull(accountUpdated)
         Assert.assertEquals(accountUpdated.password, updateAccount.password)
-    }
-
-    @Test(expected = LoginException::class)
-    fun `Should fail login for wrong credentials`()
-    {
-        val account = CreateAccount("testAccountName", "testAccountSurname",
-            "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
-        )
-        val newAccount = AccountManagerLogic.createAccount(account)
-        Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = LoginData("anotherusername", PasswordManager.encodePassword("anotherpass"))
-        AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
-    }
-
-    @Test(expected = LoginException::class)
-    fun `Should fail login for empty credentials`()
-    {
-        val account = CreateAccount("testAccountName", "testAccountSurname",
-            "fakeemail@test.it", "usernameTest", "testpass", AccountType.USER
-        )
-        val newAccount = AccountManagerLogic.createAccount(account)
-        Assert.assertNotNull(newAccount)
-        val wrongLoginUserData = LoginData("", PasswordManager.encodePassword(""))
-        AccountManagerLogic.checkLoginData(wrongLoginUserData, newAccount)
-    }
-
-    @Test
-    fun `Should be successful login`()
-    {
-        val account = CreateAccount("testAccountName", "testAccountSurname",
-            "fakeemail@test.it", "usernameTest", "simple_pass", AccountType.USER
-        )
-        account.password = PasswordManager.encodePassword(account.password)
-        val newAccount = AccountManagerLogic.createAccount(account)
-        Assert.assertNotNull(newAccount)
-        val loginData = LoginData(newAccount.username, newAccount.password)
-        AccountManagerLogic.checkLoginData(loginData, newAccount)
     }
 }

@@ -1,9 +1,15 @@
 package development.kit.user
 
-import development.kit.exception.LoginException
-
+/**
+ * AccountManagerLogic è una classe che si prende cura delle logiche relative alla classe Account
+ */
 object AccountManagerLogic
 {
+    /**
+     * Aggiorna i dati di un account
+     * @param accountToUpdate l'account che deve essere aggiornato
+     * @param newAccount i nuovi dati dell'account
+     */
     fun updateAccount(accountToUpdate: Account, newAccount: UpdateAccount): Account
     {
         accountToUpdate.name = newAccount.name
@@ -15,20 +21,13 @@ object AccountManagerLogic
         return accountToUpdate
     }
 
+    /**
+     * Crea un account
+     * @param newAccount i dati del nuovo account
+     */
     fun createAccount(newAccount: CreateAccount): Account
     {
         return Account(newAccount.name, newAccount.surname, newAccount.email, newAccount.username,
             newAccount.password, newAccount.accountType)
-    }
-
-    // TODO modificare con user invece che account
-    @Throws(LoginException::class)
-    fun checkLoginData(submittedLoginData: LoginData, accountDataToCompare: Account): Account
-    {
-        if ( submittedLoginData.username == accountDataToCompare.username && submittedLoginData.encodedPassword == accountDataToCompare.password )
-        {
-            return accountDataToCompare
-        }
-        throw LoginException("incorrect login data")
     }
 }
