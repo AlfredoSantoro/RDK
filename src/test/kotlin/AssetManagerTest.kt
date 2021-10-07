@@ -1,8 +1,13 @@
 import development.kit.asset.AssetManager
+import development.kit.asset.AssetState
 import development.kit.asset.InsertUpdateSeat
 import development.kit.identifier.TagNFC
+import development.kit.reservation.SeatsReservationWithPause
+import development.kit.user.Account
+import development.kit.user.AccountType
 import org.junit.Assert
 import org.junit.Test
+import java.time.OffsetDateTime
 
 class AssetManagerTest
 {
@@ -36,7 +41,7 @@ class AssetManagerTest
     {
         val insertUpdateSeat = InsertUpdateSeat("testseat", true, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        AssetManager.getAssetState(seat, isSeatPaused = false, isSeatBookedForDate = false)
+        Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, null), AssetState.FREE)
     }
 
     @Test
@@ -44,22 +49,26 @@ class AssetManagerTest
     {
         val insertUpdateSeat = InsertUpdateSeat("testseat", false, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        AssetManager.getAssetState(seat, isSeatPaused = false, isSeatBookedForDate = false)
+        Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, null), AssetState.UNAVAILABLE)
     }
 
     @Test
     fun `Should say that the asset paused`()
     {
+        val user = Account("name-test", "surname-test", "email-test", "test", "test", AccountType.USER)
         val insertUpdateSeat = InsertUpdateSeat("testseat", true, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        AssetManager.getAssetState(seat, isSeatPaused = true, isSeatBookedForDate = true)
+        val seatReservation = SeatsReservationWithPause("", OffsetDateTime.now(), OffsetDateTime.now(), seat, user, true)
+        Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, seatReservation), AssetState.PAUSED)
     }
 
     @Test
     fun `Should say that the asset occupied`()
     {
+        val user = Account("name-test", "surname-test", "email-test", "test", "test", AccountType.USER)
         val insertUpdateSeat = InsertUpdateSeat("testseat", true, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        AssetManager.getAssetState(seat, isSeatPaused = false, isSeatBookedForDate = true)
+        val seatReservation = SeatsReservationWithPause("", OffsetDateTime.now(), OffsetDateTime.now(), seat, user)
+        Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, seatReservation), AssetState.OCCUPIED)
     }
 }

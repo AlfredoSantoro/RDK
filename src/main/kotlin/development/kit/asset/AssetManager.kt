@@ -1,5 +1,8 @@
 package development.kit.asset
 
+import development.kit.reservation.BaseReservation
+import development.kit.reservation.SeatsReservationWithPause
+
 /**
  * AssetManager è la classe che gestisce le logiche relative alla classe Asset e suoi discendenti
  */
@@ -30,18 +33,29 @@ object AssetManager
     }
 
     /**
-     * Ottiene lo stato di un posto
-     * @param canBeBooked indica se il posto può essere prenotato
-     * @param isSeatPaused indica se il posto è stato messo in pausa
-     * @param isSeatBookedForDate indica se il posto è stato prenotato
+     * Calcola lo stato attuale di un Asset
+     * @param asset l'asset per il quale si vuole calcolare lo stato
+     * @param reservationOnGoing prenotazione in corso dell'asset
      */
-    fun getAssetState(canBeBooked: Boolean, isSeatPaused:Boolean, isSeatBookedForDate: Boolean): AssetState
+    fun getCurrentAssetState(asset: Asset, reservationOnGoing: BaseReservation?): AssetState
     {
         return when {
-            !canBeBooked -> AssetState.UNAVAILABLE
-            isSeatPaused -> AssetState.PAUSED
-            isSeatBookedForDate -> AssetState.OCCUPIED
+            !asset.canBeBooked -> AssetState.UNAVAILABLE
+            reservationOnGoing !== null -> AssetState.OCCUPIED
             else -> AssetState.FREE
+        }
+    }
+
+    /**
+     * Calcola lo stato attuale di una Seat
+     * @param seat la seat per la quale si vuole calcolare lo stato
+     * @param reservationOnGoing prenotazione in corso della seat
+     */
+    fun getCurrentSeatsState(seat: Seat, reservationOnGoing: SeatsReservationWithPause?): AssetState
+    {
+        return when {
+            reservationOnGoing !== null && reservationOnGoing.inPause -> AssetState.PAUSED
+            else -> this.getCurrentAssetState(seat, reservationOnGoing)
         }
     }
 }
