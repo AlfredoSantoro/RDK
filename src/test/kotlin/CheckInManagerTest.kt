@@ -1,6 +1,7 @@
 import development.kit.asset.Seat
 import development.kit.checkin.CheckInManager
 import development.kit.reservation.ReservationManager
+import development.kit.reservation.ReservationRules
 import development.kit.user.Account
 import development.kit.user.AccountType
 import org.junit.Assert
@@ -10,15 +11,29 @@ import java.time.OffsetDateTime
 
 class CheckInManagerTest
 {
+    private val reservationManager = ReservationManager(object : ReservationRules {
+        override fun checkOverlappingUserReservations(
+            userId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+
+        override fun checkAssetAvailability(
+            assetId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+    })
+
     @Test
     fun `Should create a check-in`()
     {
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(
+        val reservation = this.reservationManager.createReservation(account,
             OffsetDateTime.now(),
-            OffsetDateTime.now().plusMinutes(10), seat, account)
+            Duration.ofMinutes(10), seat)
         Assert.assertNotNull(reservation)
         Assert.assertNotNull(CheckInManager.makeCheckInNow(reservation, account))
     }
@@ -30,9 +45,9 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(
+        val reservation = this.reservationManager.createReservation(account,
             OffsetDateTime.now(),
-            OffsetDateTime.now().plusMinutes(10), seat, account)
+            Duration.ofMinutes(10), seat)
         Assert.assertNotNull(reservation)
         val checkIn = CheckInManager.makeCheckInNow(reservation, account)
         Assert.assertNotNull(checkIn)
@@ -47,8 +62,8 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
-            seat, account)
+        val reservation = this.reservationManager.createReservation(account, startReservation,
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         val checkIn = CheckInManager.makeCheckInNow(reservation, account)
         Assert.assertNotNull(checkIn)
@@ -63,8 +78,8 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
-            seat, account)
+        val reservation = this.reservationManager.createReservation(account, startReservation,
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         val initialCheckIn = CheckInManager.makeCheckInNow(reservation, account)
         Assert.assertTrue(CheckInManager.wasCheckInDoneInFrequency(reservation.start, checkInFrequency, initialCheckIn))
@@ -80,8 +95,8 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
-            seat, account)
+        val reservation = this.reservationManager.createReservation(account, startReservation,
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         val initialCheckIn = CheckInManager.makeCheckInNow(reservation, account)
         Assert.assertTrue(CheckInManager.isFrequencyIntervalInProgress(initialCheckIn.time, checkInFrequency))
@@ -95,8 +110,8 @@ class CheckInManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(startReservation, startReservation.plusHours(1),
-            seat, account)
+        val reservation = this.reservationManager.createReservation(account, startReservation,
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         Assert.assertFalse(CheckInManager.isFrequencyIntervalInProgress(startReservation, checkInFrequency))
     }

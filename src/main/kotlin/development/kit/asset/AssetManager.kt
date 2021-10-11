@@ -1,7 +1,7 @@
 package development.kit.asset
 
 import development.kit.reservation.BaseReservation
-import development.kit.reservation.SeatsReservationWithPause
+import development.kit.reservation.ReservationPause
 
 /**
  * AssetManager è la classe che gestisce le logiche relative alla classe Asset e suoi discendenti
@@ -51,7 +51,7 @@ object AssetManager
      * @param seat la seat per la quale si vuole calcolare lo stato
      * @param reservationOnGoing prenotazione in corso della seat
      */
-    fun getCurrentSeatsState(seat: Seat, reservationOnGoing: SeatsReservationWithPause?): AssetState
+    fun getCurrentSeatsState(seat: Seat, reservationOnGoing: ReservationPause?): AssetState
     {
         return when {
             reservationOnGoing !== null && reservationOnGoing.inPause -> AssetState.PAUSED

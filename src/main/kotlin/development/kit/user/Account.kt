@@ -1,15 +1,16 @@
 package development.kit.user
 
 open class Account(
-    name: String,
-    surname: String,
-    email: String,
+    var name: String,
+    var surname: String,
+    var email: String,
     username: String,
     password: String,
-    var accountType: AccountType,
-    var accountId: Long ? = null
-): User(username, password, name, surname, email)
+    var accountType: AccountType
+): User(username, password)
 {
+
+    var id: Long = -1
 
     constructor(): this(
         "",

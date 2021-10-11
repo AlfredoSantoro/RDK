@@ -1,15 +1,28 @@
 import development.kit.asset.Seat
 import development.kit.reservation.ReservationManager
+import development.kit.reservation.ReservationRules
 import development.kit.user.Account
 import development.kit.user.AccountType
 import org.junit.Assert
 import org.junit.Test
 import java.time.Duration
 import java.time.OffsetDateTime
-import java.time.temporal.ChronoUnit
 
 class ReservationManagerTest
 {
+    private val reservationManager = ReservationManager(object : ReservationRules {
+        override fun checkOverlappingUserReservations(
+            userId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+
+        override fun checkAssetAvailability(
+            assetId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+    })
 
     @Test
     fun `Should create a simple seat reservation`()
@@ -17,8 +30,8 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(OffsetDateTime.now(),
-            OffsetDateTime.now().plusMinutes(10), seat, account)
+        val reservation = this.reservationManager.createReservation(account, OffsetDateTime.now(),
+            Duration.ofMinutes(10), seat)
         Assert.assertNotNull(reservation)
     }
 
@@ -28,8 +41,8 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation("testName", OffsetDateTime.now(),
-            Duration.ofHours(1), seat, account)
+        val reservation = this.reservationManager.createReservation(account, OffsetDateTime.now(),
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         Assert.assertEquals(reservation.end, reservation.start.plus(Duration.ofHours(1)))
     }
@@ -40,8 +53,8 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation("testName", OffsetDateTime.now(),
-            1, ChronoUnit.HOURS, seat, account)
+        val reservation = this.reservationManager.createReservation(account, OffsetDateTime.now(),
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
         Assert.assertEquals(reservation.end, reservation.start.plus(Duration.ofHours(1)))
     }
@@ -52,8 +65,8 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(OffsetDateTime.now(),
-            OffsetDateTime.now().plusHours(1), seat, account)
+        val reservation = this.reservationManager.createReservation(account, OffsetDateTime.now(),
+            Duration.ofHours(1), seat)
         Assert.assertNotNull(reservation)
     }
 
@@ -63,29 +76,9 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation("testreservation", OffsetDateTime.now(),
-            OffsetDateTime.now().plusHours(1), seat, account)
+        val reservation =this.reservationManager.createReservation(account, OffsetDateTime.now(),
+            Duration.ofHours(10), seat)
         Assert.assertNotNull(reservation)
-    }
-
-    @Test
-    fun `Should update a seatReservation`()
-    {
-        val seat = Seat("testSeat", true)
-        val account = Account("testname", "testsurname",
-            "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation("testreservation", OffsetDateTime.now(),
-            OffsetDateTime.now().plusHours(1), seat, account)
-        Assert.assertNotNull(reservation)
-        val newStart = OffsetDateTime.now().minusMinutes(30)
-        val newEnd = OffsetDateTime.now()
-        val newName = "newname"
-        val updatedReservation = ReservationManager.updateSeatReservation(reservation, reservation.seat, newName,
-            newStart, newEnd)
-        Assert.assertNotNull(updatedReservation)
-        Assert.assertEquals(updatedReservation.name, newName)
-        Assert.assertEquals(updatedReservation.start, newStart)
-        Assert.assertEquals(updatedReservation.end, newEnd)
     }
 
     @Test
@@ -94,10 +87,10 @@ class ReservationManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation("testreservation", OffsetDateTime.now(),
-            OffsetDateTime.now().plusHours(1), seat, account)
-        Assert.assertNotNull(reservation)
-        val pauseReservation = ReservationManager.pauseReservation(reservation)
+        val reservationPause = this.reservationManager.createReservationPause(account, OffsetDateTime.now(),
+            Duration.ofHours(1), seat)
+        Assert.assertNotNull(reservationPause)
+        val pauseReservation = this.reservationManager.pauseReservation(reservationPause)
         Assert.assertTrue(pauseReservation.inPause)
     }
 }

@@ -1,6 +1,6 @@
 package development.kit.reservation
 
-import development.kit.asset.Seat
+import development.kit.asset.Asset
 import development.kit.exception.IllegalReservationException
 import development.kit.time.DateTimeManager
 import development.kit.user.Account
@@ -8,53 +8,34 @@ import java.time.Duration
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
-object ReservationManager
+class ReservationManager(
+    private val reservationRules: ReservationRules
+)
 {
-
-    fun createSeatReservation(name: String, start: OffsetDateTime, amountToBeAddedToStart: Duration,
-                              seat: Seat, account: Account): SeatsReservationWithPause
+    fun createReservation(account: Account,
+                          start: OffsetDateTime,
+                          reservationDuration : Duration,
+                          asset: Asset): BaseReservation
     {
-        return SeatsReservationWithPause(name, start, this.computeEndReservation(start, amountToBeAddedToStart), seat, account)
+        val endReservation = this.computeEndReservation(start, reservationDuration)
+        this.reservationRules.checkOverlappingUserReservations(account.id, start, endReservation)
+        this.reservationRules.checkAssetAvailability(asset.id, start, endReservation)
+        return BaseReservation(start, endReservation, asset, account)
     }
 
-    fun createSeatReservation(name: String, start: OffsetDateTime,
-                              amountToBeAddedToStart: Long,
-                              representationUnit: ChronoUnit,
-                              seat: Seat, account: Account): SeatsReservationWithPause
+    fun createReservationPause(account: Account,
+                               start: OffsetDateTime,
+                               reservationDuration : Duration,
+                               asset: Asset): ReservationPause
     {
-        return SeatsReservationWithPause(name, start,
-            this.computeEndReservation(start, amountToBeAddedToStart, representationUnit), seat, account)
+        val res = this.createReservation(account, start, reservationDuration, asset)
+        return ReservationPause(res.start, res.end, res.asset, res.owner)
     }
 
-    fun createSeatReservation(start: OffsetDateTime, end: OffsetDateTime, seat: Seat, account: Account): SeatsReservationWithPause
+    fun isReservationOnGoing(start: OffsetDateTime, end: OffsetDateTime): Boolean
     {
-        return SeatsReservationWithPause("Reservation of the ${OffsetDateTime.now()}", start, end, seat, account)
-    }
-
-    fun createSeatReservation(name: String, start: OffsetDateTime, end: OffsetDateTime,
-                              seat: Seat, account: Account): SeatsReservationWithPause
-    {
-        return SeatsReservationWithPause(name, start, end, seat, account)
-    }
-
-    fun updateSeatReservation(reservation: SeatsReservationWithPause,
-                              newSeat: Seat,
-                              newName: String,
-                              newStart: OffsetDateTime,
-                              newEnd: OffsetDateTime): SeatsReservationWithPause
-    {
-        reservation.name = newName
-        reservation.seat = newSeat
-        reservation.start = newStart
-        reservation.end = newEnd
-        return reservation
-    }
-
-
-    fun pauseReservation(reservation: SeatsReservationWithPause): SeatsReservationWithPause
-    {
-        reservation.inPause = true
-        return reservation
+        val now = OffsetDateTime.now()
+        return (now >= start && now < end)
     }
 
     fun computeEndReservation(start: OffsetDateTime, amountToBeAddedToStart: Duration): OffsetDateTime
@@ -76,5 +57,12 @@ object ReservationManager
             throw IllegalReservationException("Illegal Reservation: start > end or startTime = endTime")
         }
         return endComputed
+    }
+
+
+    fun pauseReservation(reservation: ReservationPause): ReservationPause
+    {
+        reservation.inPause = true
+        return reservation
     }
 }

@@ -1,17 +1,29 @@
 import development.kit.asset.Seat
 import development.kit.openingtimes.OpeningTimeManager
 import development.kit.reservation.ReservationManager
+import development.kit.reservation.ReservationRules
 import development.kit.user.Account
 import development.kit.user.AccountType
 import org.junit.Assert
 import org.junit.Test
-import java.time.DayOfWeek
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.OffsetTime
+import java.time.*
 
 class OpeningTimeManagerTest
 {
+    private val reservationManager = ReservationManager(object : ReservationRules {
+        override fun checkOverlappingUserReservations(
+            userId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+
+        override fun checkAssetAvailability(
+            assetId: Long,
+            startReservation: OffsetDateTime,
+            endReservation: OffsetDateTime
+        ) {}
+    })
+
     @Test
     fun `Should create a openingTimes`()
     {
@@ -42,8 +54,8 @@ class OpeningTimeManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(reservationStart,
-            reservationStart.plusMinutes(10), seat, account)
+        val reservation = this.reservationManager.createReservation(account, reservationStart,
+            Duration.ofMinutes(10), seat)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager
             .createPeriodicOpeningTime(now.dayOfWeek, OffsetTime.of(LocalTime.of(9,0), now.offset),
@@ -61,8 +73,8 @@ class OpeningTimeManagerTest
         val seat = Seat("testSeat", true)
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
-        val reservation = ReservationManager.createSeatReservation(reservationStart,
-            reservationStart.plusMinutes(10), seat, account)
+        val reservation = this.reservationManager.createReservation(account, reservationStart,
+            Duration.ofMinutes(10), seat)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager
             .createPeriodicOpeningTime(now.dayOfWeek, OffsetTime.of(LocalTime.of(9,0), now.offset),
