@@ -2,6 +2,7 @@ package development.kit.reservation
 
 import development.kit.asset.Asset
 import development.kit.exception.IllegalReservationException
+import development.kit.rules.ReservationRuleManager
 import development.kit.time.DateTimeManager
 import development.kit.user.Account
 import java.time.Duration
@@ -12,15 +13,20 @@ class ReservationManager(
     private val reservationRules: ReservationRules
 )
 {
+    private val reservationRuleManager = ReservationRuleManager(this.reservationRules)
+
+    @Throws(IllegalReservationException::class)
     fun createReservation(account: Account,
                           start: OffsetDateTime,
                           reservationDuration : Duration,
                           asset: Asset): BaseReservation
     {
-        val endReservation = this.computeEndReservation(start, reservationDuration)
-        this.reservationRules.checkOverlappingUserReservations(account.id, start, endReservation)
-        this.reservationRules.checkAssetAvailability(asset.id, start, endReservation)
-        return BaseReservation(start, endReservation, asset, account)
+        val res = BaseReservation(start, this.computeEndReservation(start, reservationDuration), asset, account)
+        if ( !this.reservationRuleManager.isAssetAvailable(asset, res) )
+        {
+            throw IllegalReservationException("Asset #${asset.name} not available")
+        }
+        return res
     }
 
     fun createReservationPause(account: Account,
@@ -58,7 +64,6 @@ class ReservationManager(
         }
         return endComputed
     }
-
 
     fun pauseReservation(reservation: ReservationPause): ReservationPause
     {

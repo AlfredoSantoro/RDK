@@ -9,15 +9,5 @@ open class Account(
     var accountType: AccountType
 ): User(username, password)
 {
-
-    var id: Long = -1
-
-    constructor(): this(
-        "",
-        "",
-        "",
-        "",
-        "",
-        AccountType.UNKNOWN
-    )
+    var accountId: Long ? = null
 }

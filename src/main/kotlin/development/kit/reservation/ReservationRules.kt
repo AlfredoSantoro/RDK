@@ -1,12 +1,12 @@
 package development.kit.reservation
 
+import development.kit.asset.Asset
+import development.kit.user.Account
 import java.time.OffsetDateTime
 
 interface ReservationRules
 {
-    @Throws(Exception::class)
-    fun checkOverlappingUserReservations(userId: Long, startReservation: OffsetDateTime, endReservation: OffsetDateTime)
+    fun isOverlappingUserReservations(account: Account, startReservation: OffsetDateTime, endReservation: OffsetDateTime): Boolean
 
-    @Throws(Exception::class)
-    fun checkAssetAvailability(assetId: Long, startReservation: OffsetDateTime, endReservation: OffsetDateTime)
+    fun isAssetAvailable(asset: Asset, startReservation: OffsetDateTime, endReservation: OffsetDateTime): Boolean
 }

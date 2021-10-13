@@ -1,3 +1,4 @@
+import development.kit.asset.Asset
 import development.kit.asset.Seat
 import development.kit.reservation.ReservationManager
 import development.kit.reservation.ReservationRules
@@ -11,17 +12,17 @@ import java.time.OffsetDateTime
 class ReservationManagerTest
 {
     private val reservationManager = ReservationManager(object : ReservationRules {
-        override fun checkOverlappingUserReservations(
-            userId: Long,
+        override fun isOverlappingUserReservations(
+            account: Account,
             startReservation: OffsetDateTime,
             endReservation: OffsetDateTime
-        ) {}
+        ): Boolean { return false }
 
-        override fun checkAssetAvailability(
-            assetId: Long,
+        override fun isAssetAvailable(
+            asset: Asset,
             startReservation: OffsetDateTime,
             endReservation: OffsetDateTime
-        ) {}
+        ): Boolean { return false }
     })
 
     @Test

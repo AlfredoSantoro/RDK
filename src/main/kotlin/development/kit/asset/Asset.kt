@@ -5,10 +5,5 @@ open class Asset(
     var canBeBooked: Boolean
 )
 {
-    var id: Long = -1
-
-    constructor(): this(
-        "",
-        false
-    )
+    var assetId : Long ? = null
 }

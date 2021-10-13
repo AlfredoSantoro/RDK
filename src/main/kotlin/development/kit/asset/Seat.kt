@@ -7,10 +7,5 @@ open class Seat(
     canBeBooked: Boolean,
 ): Asset(name, canBeBooked)
 {
-    constructor(): this(
-        "",
-        false
-    )
-
     var identifier: Identifier ? = null
 }
