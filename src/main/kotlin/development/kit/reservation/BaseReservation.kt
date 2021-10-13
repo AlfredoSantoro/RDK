@@ -13,7 +13,7 @@ open class BaseReservation(
 {
     init
     {
-        ReservationValidation.validReservation(BaseReservation(this.start, this.end, this.asset, this.owner))
+        ReservationValidation.validReservation(this)
     }
 
     var reservationId: Long ? = null

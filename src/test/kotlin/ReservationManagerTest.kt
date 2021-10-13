@@ -22,7 +22,7 @@ class ReservationManagerTest
             asset: Asset,
             startReservation: OffsetDateTime,
             endReservation: OffsetDateTime
-        ): Boolean { return false }
+        ): Boolean { return true }
     })
 
     @Test

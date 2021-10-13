@@ -6,7 +6,7 @@ import development.kit.time.DateTimeManager
 
 object ReservationValidation
 {
-    @Throws(IllegalReservationException::class)
+    @Throws(Exception::class)
     fun validReservation(reservation: BaseReservation)
     {
         if ( !DateTimeManager.isStartDateTimeBeforeEndDateTime(reservation.start, reservation.end) )
