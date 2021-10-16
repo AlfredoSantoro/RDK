@@ -2,6 +2,7 @@ package development.kit.reservation
 
 import development.kit.asset.Asset
 import development.kit.exception.IllegalReservationException
+import development.kit.exception.ReservationOverlapsException
 import development.kit.rules.ReservationRuleManager
 import development.kit.time.DateTimeManager
 import development.kit.user.Account
@@ -25,6 +26,10 @@ class ReservationManager(
         if ( !this.reservationRuleManager.isAssetAvailable(asset, res) )
         {
             throw IllegalReservationException("Asset #${asset.name} not available")
+        }
+        if ( this.reservationRuleManager.isOverlappingUserReservations(account, res) )
+        {
+            throw ReservationOverlapsException("Reservation overlaps with another for user #${account.accountId}")
         }
         return res
     }
