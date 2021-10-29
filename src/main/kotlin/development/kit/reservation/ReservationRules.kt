@@ -9,6 +9,4 @@ interface ReservationRules
     fun isOverlappingUserReservations(account: Account, startReservation: OffsetDateTime, endReservation: OffsetDateTime): Boolean
 
     fun isAssetAvailable(asset: Asset, startReservation: OffsetDateTime, endReservation: OffsetDateTime): Boolean
-
-    fun isThereAReservation(id: Long): BaseReservation?
 }
