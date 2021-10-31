@@ -9,5 +9,6 @@ open class ReservationPause(
     end: OffsetDateTime,
     asset: Asset,
     owner: Account,
-    var inPause: Boolean = false
-): BaseReservation(start, end, asset, owner)
+    var inPause: Boolean = false,
+    id: Long,
+): BaseReservation(start, end, asset, owner, id)

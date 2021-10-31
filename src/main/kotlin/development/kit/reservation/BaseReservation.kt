@@ -8,13 +8,12 @@ open class BaseReservation(
     var start: OffsetDateTime,
     var end: OffsetDateTime,
     var asset: Asset,
-    val owner: Account
+    val owner: Account,
+    val id: Long
 )
 {
     init
     {
         ReservationValidation.validReservation(this)
     }
-
-    var reservationId: Long ? = null
 }

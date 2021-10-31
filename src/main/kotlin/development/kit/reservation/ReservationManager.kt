@@ -19,21 +19,23 @@ class ReservationManager(
     fun createReservation(account: Account,
                           start: OffsetDateTime,
                           reservationDuration : Duration,
+                          reservationId: Long,
                           asset: Asset): BaseReservation
     {
-        val res = BaseReservation(start, this.computeEndReservation(start, reservationDuration), asset, account)
+        val res = BaseReservation(start, this.computeEndReservation(start, reservationDuration), asset, account, reservationId)
         this.reservationRuleManager.checkAssetAvailable(asset, res)
         this.reservationRuleManager.checkOverlapUserReservations(account, res)
         return res
     }
 
     fun createReservationPause(account: Account,
+                               reservationId: Long,
                                start: OffsetDateTime,
                                reservationDuration : Duration,
                                asset: Asset): ReservationPause
     {
-        val res = this.createReservation(account, start, reservationDuration, asset)
-        return ReservationPause(res.start, res.end, res.asset, res.owner)
+        val res = this.createReservation(account, start, reservationDuration, reservationId, asset)
+        return ReservationPause(res.start, res.end, res.asset, res.owner, false, res.id)
     }
 
     fun isReservationOnGoing(start: OffsetDateTime, end: OffsetDateTime): Boolean

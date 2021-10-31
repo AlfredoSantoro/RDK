@@ -45,7 +45,7 @@ class CheckInManagerTest
             "testemail", "testusername", "testpass", AccountType.USER)
         val reservation = this.reservationManager.createReservation(account,
             OffsetDateTime.now(),
-            Duration.ofMinutes(10), seat)
+            Duration.ofMinutes(10), -1, seat)
         Assert.assertNotNull(reservation)
         val checkIn = CheckInFactory.createDefaultCheckInNow(reservation, account, -1)
         Assert.assertNotNull(checkIn)
@@ -60,7 +60,7 @@ class CheckInManagerTest
             "testemail", "testusername", "testpass", AccountType.USER)
         val reservation = this.reservationManager.createReservation(account,
             OffsetDateTime.now(),
-            Duration.ofMinutes(10), seat)
+            Duration.ofMinutes(10), -1, seat)
         Assert.assertNotNull(reservation)
         val checkIn = CheckInFactory.createDefaultCheckInNow(reservation, account, -1)
         Assert.assertNotNull(checkIn)

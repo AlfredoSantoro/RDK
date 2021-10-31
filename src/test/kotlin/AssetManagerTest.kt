@@ -58,7 +58,7 @@ class AssetManagerTest
         val user = Account("name-test", "surname-test", "email-test", "test", "test", AccountType.USER)
         val insertUpdateSeat = InsertUpdateSeat("testseat", true, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        val seatReservation = ReservationPause(OffsetDateTime.now(), OffsetDateTime.now(), seat, user, true)
+        val seatReservation = ReservationPause(OffsetDateTime.now(), OffsetDateTime.now(), seat, user, true, -1)
         Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, seatReservation), AssetState.PAUSED)
     }
 
@@ -68,7 +68,7 @@ class AssetManagerTest
         val user = Account("name-test", "surname-test", "email-test", "test", "test", AccountType.USER)
         val insertUpdateSeat = InsertUpdateSeat("testseat", true, TagNFC("testname","xxx"))
         val seat = AssetManager.createSeat(insertUpdateSeat)
-        val seatReservation = ReservationPause( OffsetDateTime.now(), OffsetDateTime.now(), seat, user)
+        val seatReservation = ReservationPause( OffsetDateTime.now(), OffsetDateTime.now(), seat, user, false, -1)
         Assert.assertEquals(AssetManager.getCurrentSeatsState(seat, seatReservation), AssetState.OCCUPIED)
     }
 }

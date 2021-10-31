@@ -56,7 +56,7 @@ class OpeningTimeManagerTest
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
         val reservation = this.reservationManager.createReservation(account, reservationStart,
-            Duration.ofMinutes(10), seat)
+            Duration.ofMinutes(10), -1, seat)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager
             .createPeriodicOpeningTime(now.dayOfWeek, OffsetTime.of(LocalTime.of(9,0), now.offset),
@@ -75,7 +75,7 @@ class OpeningTimeManagerTest
         val account = Account("testname", "testsurname",
             "testemail", "testusername", "testpass", AccountType.USER)
         val reservation = this.reservationManager.createReservation(account, reservationStart,
-            Duration.ofMinutes(10), seat)
+            Duration.ofMinutes(10), -1, seat)
         Assert.assertNotNull(reservation)
         val openingTime = OpeningTimeManager
             .createPeriodicOpeningTime(now.dayOfWeek, OffsetTime.of(LocalTime.of(9,0), now.offset),
