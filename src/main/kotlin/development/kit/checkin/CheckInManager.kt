@@ -1,29 +1,20 @@
 package development.kit.checkin
 
-import development.kit.reservation.BaseReservation
-import development.kit.user.Account
-import java.time.Duration
-import java.time.OffsetDateTime
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-object CheckInManager
+class CheckInManager(
+    private val checkInRules: CheckInRules
+)
 {
-    fun makeCheckInNow(baseReservation: BaseReservation, owner: Account): CheckIn
-    {
-        return CheckIn(baseReservation, OffsetDateTime.now(), owner)
-    }
+    private val logger: Logger = LoggerFactory.getLogger(CheckInManager::class.java)
 
-    fun createCheckIn(baseReservation: BaseReservation, time: OffsetDateTime, owner: Account): CheckIn
-    {
-        return CheckIn(baseReservation, time, owner)
-    }
+    fun isValidCheckIn(checkIn: CheckIn): Boolean { return this.checkInRules.isInTime(checkIn) }
 
-    fun wasCheckInDoneInFrequency(start: OffsetDateTime, checkInFrequency: Duration, newCheckIn: CheckIn): Boolean
+    fun checkInValidation(checkIn: CheckIn): CheckIn
     {
-        return newCheckIn.time < start.plus(checkInFrequency)
-    }
-
-    fun isFrequencyIntervalInProgress(start: OffsetDateTime, frequency: Duration): Boolean
-    {
-        return start.plus(frequency) > OffsetDateTime.now()
+        checkIn.isValid = this.isValidCheckIn(checkIn)
+        this.logger.info("### check-in #${checkIn.checkInId} is valid ${checkIn.isValid}")
+        return checkIn
     }
 }

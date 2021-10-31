@@ -16,6 +16,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("commons-codec:commons-codec:1.11")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
 }
 
 tasks.test {
