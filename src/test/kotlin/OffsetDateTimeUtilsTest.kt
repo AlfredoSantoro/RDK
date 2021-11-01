@@ -14,7 +14,7 @@ class OffsetDateTimeUtilsTest
         val now = OffsetDateTime.now()
         val timeUpdated = OffsetDateTimeUtils.addDurationToTime(now, duration)
         Assert.assertNotNull(timeUpdated)
-        Assert.assertEquals(now.plusMinutes(minutes).minute, timeUpdated!!.minute)
+        Assert.assertEquals(now.plusMinutes(minutes).minute, timeUpdated.minute)
     }
 
     @Test
@@ -22,6 +22,13 @@ class OffsetDateTimeUtilsTest
     {
         Assert.assertTrue(OffsetDateTimeUtils.isStartGreaterThanEnd(OffsetDateTime.now(),
             OffsetDateTime.now().minusMinutes(1)))
+    }
+
+    @Test
+    fun `Should say you that start is not greater then end`()
+    {
+        val startEnd = OffsetDateTime.now()
+        Assert.assertFalse(OffsetDateTimeUtils.isStartGreaterThanEnd(startEnd,startEnd))
     }
 
     @Test
